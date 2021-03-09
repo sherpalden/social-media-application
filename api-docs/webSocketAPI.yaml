@@ -1,0 +1,277 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'Web Socket Event APIs'
+  description: 'These are events of realtime communication between server and client'
+  contact:
+    name: Palden Sherpa
+    email: sherpalden369@gmail.com
+servers: 
+  - url: http://localhost:5000
+    description: Local Server
+
+  - url: http://144.91.85.156:5000
+    description: Development Server
+
+paths:
+  /addFriend:
+    post:
+      description: emit when you send a friend request to another user.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                receiverID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+
+  /addedFriend:
+    get:
+      description: emits when some user sends you a friend request
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notificationID:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  sender:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 5f8564021cc2e80696a2bed7
+                      fullName:
+                        type: string
+                        example: Shiva Bishnu Vagawan
+                      profilePic:
+                        type: string
+                        example: abc.png
+                  type:
+                    type: string
+                    example: addedFriend
+                  message:
+                    type: string
+                    example: Shiva Bishnu Vagawan sent you a friend request.
+                  date:
+                    type: string
+                    example: 2020-02-24
+                  newNotifications:
+                    type: integer
+                    example: 21
+
+
+
+  /acceptFriend:
+    post:
+      description: emit when you accept a friend request of some user.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                senderID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+
+  /rejectFriend:
+    post:
+      description: emit when you reject a friend request of some user.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                senderID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+
+  /acceptedFriend:
+    get:
+      description: emits when some user accepts your friend request
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notificationID:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  sender:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 5f8564021cc2e80696a2bed7
+                      fullName:
+                        type: string
+                        example: Shiva Bishnu Vagawan
+                      profilePic:
+                        type: string
+                        example: abc.png
+                  type:
+                    type: string
+                    example: acceptedFriend
+                  message:
+                    type: string
+                    example: Shiva Bishnu Vagawan accepted your friend request.
+                  date:
+                    type: string
+                    example: 2020-02-24
+                  newNotifications:
+                    type: integer
+                    example: 21
+
+
+
+  /connectToPost:
+    post:
+      description: emit when you connect a post to some user
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                receivers:
+                  type: array
+                  example: [5f8564021cc2e80696a2bed7, adfasdfasdf23452345gd]
+                postID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+
+  /connectedToPost:
+    get:
+      description: fires when some user connects you to a post
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notificationID:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  sender:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 5f8564021cc2e80696a2bed7
+                      fullName:
+                        type: string
+                        example: Shiva Bishnu Vagawan
+                      profilePic:
+                        type: string
+                        example: abc.png
+                  type:
+                    type: string
+                    example: connectedToPost
+                  postID:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  message:
+                    type: string
+                    example: Shiva Vagawan connected you to a post.
+                  date:
+                    type: string
+                    example: 2020-02-24
+                  newNotifications:
+                    type: integer
+                    example: 21
+
+
+
+  /connectToCampaign:
+    post:
+      description: emit when you connect a campaign to some user
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                receivers:
+                  type: array
+                  example: [5f8564021cc2e80696a2bed7, adfasdfasdf23452345gd]
+                campaignID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+
+  /connectedToCampaign:
+    get:
+      description: fires when some user connects you to a campaign
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notificationID:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  sender:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 5f8564021cc2e80696a2bed7
+                      fullName:
+                        type: string
+                        example: Shiva Bishnu Vagawan
+                      profilePic:
+                        type: string
+                        example: abc.png
+                  type:
+                    type: string
+                    example: connectedTocCampaign
+                  campaignID:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  message:
+                    type: string
+                    example: Shiva Vagawan connected you to a campaign.
+                  date:
+                    type: string
+                    example: 2020-02-24
+                  newNotifications:
+                    type: integer
+                    example: 21
+
+
+  /seenNotification:
+    post:
+      description: emit when you click the notification in the notification bar.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                notificationID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+

@@ -1,0 +1,701 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'Campaign APIs'
+  description: 'These are apis that are related to Campaign transactions.'
+  contact:
+    name: Palden Sherpa
+    email: sherpalden369@gmail.com
+servers: 
+  - url: http://localhost:5000
+    description: Local Server
+
+  - url: http://144.91.85.156:5000
+    description: Development Server
+
+paths:
+
+  /api/campaign/set-thumbnail/{campaignID}:
+    put:
+      tags:
+        - Campaign
+      description: Set thumbnail image for a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                thumbnailImg:
+                  type: string
+                  example: abc.png
+      responses:
+        200:
+          description: Response on successful setup of thumbnail image of campaign
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: setup of thumbnail image of campaign successful
+
+
+  /api/campaign:
+    post:
+      tags:
+        - Campaign
+      description: Create or update the profile picture.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                  files:
+                    type: array
+                    items:
+                      type: string
+                      format: binary
+                  # $ref: '#/components/schemas/campaign'
+                  title:
+                    type: string
+                    example: Lets Kill Covid-19
+                  duration:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                        example: 2020-01-01
+                      endDate:
+                        type: string
+                        example: 2020-01-03
+                  objectives:
+                    type: string
+                    example: to end covid-19
+                  details: 
+                    type: string
+                    example: This campaign aims to end the covid-19 and blah blah...
+                  targetGroup: 
+                    type: string
+                    example: Government
+                  ageGroup: 
+                    type: string
+                    example: 25-60 years
+                  campaignType: 
+                    type: string
+                    example: Health Campaign
+                  location:
+                    type: string
+                    example: ABC street, route no. xyz ...
+                  country:
+                    type: string
+                    example: Nepal
+                  state: 
+                    type: string
+                    example: Bagmati
+                  district:
+                    type: string
+                    example: Kathmandu
+                  localUnit:
+                    type: string
+                    example: Ratnapark
+                  category:
+                    type: string
+                    example: Pandemic
+                  message:
+                    type: string
+                    example: Maintain physical distance.
+                  platform:
+                    type: string
+                    example: Health and Social platform
+      responses:
+        201:
+          description: Response on successful creation of campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campaign Create Successful
+
+
+  /api/campaign/expressed-campaigns:
+    get:
+      tags:
+        - Campaign
+      description: Display campaigns that are expressed.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful retrieval of campaigns.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campagains Retrieval Successful
+                  total:
+                    type: integer
+                    example: 4
+                  nextSkips: 
+                    type: integer
+                    example: 2
+
+
+  /api/campaign/all-campaigns:
+    get:
+      tags:
+        - Campaign
+      description: Display all campaigns.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful retrieval of campaigns.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campagains Retrieval Successful
+                  total:
+                    type: integer
+                    example: 4
+                  nextSkips: 
+                    type: integer
+                    example: 2
+
+  /api/campaign/user-campaigns:
+    get:
+      tags:
+        - Campaign
+      description: Display all campaigns of logged user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful retrieval of campaigns.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campagains Retrieval Successful
+                  total:
+                    type: integer
+                    example: 4
+                  nextSkips: 
+                    type: integer
+                    example: 2
+                  
+
+  /api/campaign/details/{campaignID}:
+    get:
+      tags:
+        - Campaign
+      description: Display single campaign details of particular ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      responses:
+        200:
+          description: Response on successful retrieval of campaign details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campaign Retrieval Successful
+                  
+
+  /api/campaign/{campaignID}:
+    delete:
+      tags:
+        - Campaign
+      description: Delete a campaign of particular ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      
+      responses:
+        200:
+          description: Response on successful deletion of campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campaign Delete Successful
+
+  
+  /api/campaign/rating/{campaignID}:
+    post:
+      tags:
+        - Campaign
+      description: Post a user rating to a campaign of particular ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                  ratingVal:
+                    type: integer
+                    example: 3
+      responses:
+        200:
+          description: Response on successful rating of campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campaign rating Successful
+                  avgRating:
+                    type: integer
+                    example: 4.5
+
+
+  /api/campaign/express/{campaignID}:
+    post:
+      tags:
+        - Campaign
+      description: Express a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      responses:
+        200:
+          description: Response on successful express of campaign
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Express on a Campaign Successful
+
+
+  /api/campaign/take/{campaignID}:
+    put:
+      tags:
+        - Campaign
+      description: Take a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      responses:
+        200:
+          description: Response on successful take of campaign
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Take on a Campaign Successful
+                  takeTotal:
+                    type: integer
+                    example: 5
+                  isTaken:
+                    type: boolean
+                    example: true
+
+
+  /api/campaign/untake/{campaignID}:
+    put:
+      tags:
+        - Campaign
+      description: Untake a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      responses:
+        200:
+          description: Response on successful untake of campaign
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Untake on a Campaign Successful
+                  takeTotal:
+                    type: integer
+                    example: 4
+                  isTaken:
+                    type: boolean
+                    example: false
+
+
+  /api/campaign/comment/{campaignID}:
+    post:
+      tags:
+        - Campaign
+      description: Post a comment in a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                text:
+                  type: string
+                  example: Your campaign is very userful for students.
+      responses:
+        200:
+          description: Response on successful post of comment on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Comment on a Post Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  comment:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                        example: I commented on your campaign
+                      image:
+                        type: string
+                        example: abc.png
+
+
+    get:
+      tags:
+        - Campaign
+      description: Load comments of a campaign.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful loading of comments of campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Comment loading successful.
+
+
+  /api/campaign/comment/{campaignID}/{commentID}:
+    put:
+      tags:
+        - Campaign
+      description: Edit a comment of a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: This is updated comment.
+                image:
+                  type: string
+                  example: abc.png     
+      responses:
+        200:
+          description: Response on successful edit of a comment on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Edit comment of a Campaign Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  text:
+                    type: string
+                    example: This is updated comment
+
+    delete:
+      tags:
+        - Campaign
+      description: Delete a comment in a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+      responses:
+        200:
+          description: Response on successful delete of a comment on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Delete comment of a Campaign Successful
+                  commentTotal:
+                    type: integer
+                    example: 89
+
+
+  /api/campaign/reply/{campaignID}/{commentID}:
+    post:
+      tags:
+        - Campaign
+      description: Post a reply on a comment in a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                text:
+                  type: string
+                  example: I am replying to your comment hhaha...
+      responses:
+        200:
+          description: Response on successful post of reply on a comment on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Reply on a comment of a Campaign Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  reply:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                        example: I replied on a comment
+                      image:
+                        type: string
+                        example: abc.png
+
+
+    get:
+      tags:
+        - Campaign
+      description: Load repies of a comment of a campaign.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful loading of replies of comment.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Replies loading successful.
+
+
+  /api/campaign/reply/{campaignID}/{commentID}/{replyID}:
+    put:
+      tags:
+        - Campaign
+      description: Edit a reply in a campaign.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+        - in: path
+          name: replyID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: This is updated reply.
+                image:
+                  type: string
+                  example: abc.png
+      responses:
+        200:
+          description: Response on successful edit of a reply on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Edit reply of a Campaign Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  text:
+                    type: string
+                    example: This is updated reply
+
+    delete:
+      tags:
+        - Campaign
+      description: Delete a reply on a comment in a campaign.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+        - in: path
+          name: replyID
+      responses:
+        200:
+          description: Response on successful delete of reply on a comment on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Reply delete on a comment of a Campaign Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+
+
+
+components:
+  securitySchemes:
+    bearerAuth:           
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  
+
+  schemas:
+    campaign:
+      

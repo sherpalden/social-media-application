@@ -1,0 +1,3653 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'User APIs'
+  description: 'These are APIs for the user of alternative platform client'
+  contact:
+    name: Palden Sherpa
+    email: sherpalden369@gmail.com
+servers: 
+  - url: http://localhost:5000
+    description: Local Server
+
+  - url: http://144.91.85.156:5000
+    description: Development Server
+
+paths:
+  /api/user/static-data:
+    get:
+      tags:
+        - User Authentication
+      description: Get static data for user Registration
+      responses:
+        200:
+          description: Response on Successful retrieval of static data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Successful"
+                  data:
+                    type: object
+                    properties:
+                      country:
+                        type: array
+                        example: ["Nepal", "India", "Bhutan", "Pakisthan", "China"]
+                      category:
+                        type: array
+                        example: ["Art", "Music", "Science", "literature", "Politics"]
+
+  /api/user/register:
+    post:
+      tags:
+        - User Authentication
+      description: Register new user.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                  firstName:
+                      type: string
+                      example: Palden
+                  lastName:
+                      type: string
+                      example: Sherpa
+                  email:
+                      type: string
+                      example: sherpalden369@gmail
+                  password:
+                      type: string
+                      example: asdf5D-_34f
+                  mobileNumber:
+                      type: integer
+                      example: 9856548754
+                  category:
+                      type: string
+                      example: Medical Science
+                  country:
+                      type: string
+                      example: Nepal
+                  gender:
+                      type: string
+                      example: Male
+                  birthDate:
+                      type: string
+                      example: 2020-01-01
+      responses:
+        201:
+          description: Registration Successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registration Successful"
+
+  /api/user/login:
+    post:
+      tags:
+        - User Authentication
+      description: Login User.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                  email:
+                      type: string
+                      example: sherpalden369@gmail.com
+                  password:
+                      type: string
+                      example: asdf5D-_34f
+      responses:
+        202:
+          description: Login Successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Login Successful
+                  accessToken:
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJpVFVrS0M4T0IiLCJlbWFpbCI6InNoZXJwYWxkZW4zNjlAZ21haWwuY29tIiwiaWF0IjoxNjAyNTc4MTI2LCJleHAiOjE2MDI2MzgxMjZ9.xI_Y5EGPZP8E0RgAwtdIIDdDvkXF2Zdoa1p0z9nKDbA
+
+  /api/user/forgotPassword:
+    put:
+      tags:
+        - User Authentication
+      description: Process password reset request.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                  email:
+                      type: string
+                      example: sherpalden369@gmail.com
+      responses:
+        200:
+          description: Password reset request processed and reset link has been sent to the email, sherpalden369@gmail.com
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Password reset request successfully processed and reset link is sent to the email, sherpalden369@gmail.com
+
+  /api/user/resetPassword:
+    put:
+      tags:
+        - User Authentication
+      description: Change old password and set new one.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                  newPassword:
+                    type: string
+                    example: sherpalden369@gmail.com
+                  resetToken:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJpVFVrS0M4T0IiLCJlbWFpbCI6InNoZXJwYWxkZW4zNjlAZ21haWwuY29tIiwiaWF0IjoxNjAyNTc4MTI2LCJleHAiOjE2MDI2MzgxMjZ9.xI_Y5EGPZP8E0RgAwtdIIDdDvkXF2Zdoa1p0z9nKDbA
+      responses:
+        200:
+          description: Old password removed and new password set.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Password Reset Successful
+
+
+
+
+
+
+
+
+
+
+
+# User authentication ends
+# And User Profile Starts
+
+
+
+
+
+
+  /api/user/profile/name:
+    put:
+      tags:
+        - User Profile
+      description: Update user name.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                  firstName:
+                    type: string
+                    example: Renzen
+                  lastName:
+                    type: string
+                    example: Sherpa
+      responses:
+        200:
+          description: Response on successful update of user name.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User name update Successful
+                  firstName: 
+                    type: string
+                    example: Renzen
+                  lastName:
+                    type: string
+                    example: Sherpa
+
+
+  /api/user/profile:
+    get:
+      tags:
+        - User Profile
+      description: Retrieve the profile details of user of particular userID. If the profile
+                   has not been created, create new empty profile on the fly and retrieve the
+                   created one.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successful retrievel of the profile.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Profile retrievel successful.
+                  profile:
+                    type: object
+                    properties:
+                      _id: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f8d3
+                      userID: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f645
+                      userInfo:
+                        type: object
+                        properties:
+                          firstName:
+                            type: string
+                            example: Palden
+                          lastName:
+                            type: string
+                            example: Sherpa
+                          category:
+                            type: string
+                            example: Backend Engineering
+                          email:
+                            type: string
+                            example: asdfdsf@gmail.com
+                          mobileNumber:
+                            type: string
+                            example: 6598326598
+                          country:
+                            type: string
+                            example: Burundi
+                          gender:
+                            type: string
+                            example: Male
+                          birthDate:
+                            type: string
+                            example: 2020-01-01
+                      bio:
+                        type: string
+                        example: Hello I am a web developer.
+                      coverPic: 
+                        type: string
+                        example: abc.jpg
+                      profilePic:
+                        type: string
+                        example: xyz.jpg
+                      address:
+                        type: array
+                        items:
+                          properties:
+                            _id: 
+                              type: string
+                              example: 5f83cc2b5560c50ea8438f5b
+                            $ref: '#/components/schemas/user/profile/address'
+                      education:
+                        type: array
+                        items:
+                          properties:
+                            _id: 
+                              type: string
+                              example: 5f83cc2b5560c50ea8438654
+                            $ref: '#/components/schemas/user/profile/education'
+                      work:
+                        type: array
+                        items:
+                          properties:
+                            _id: 
+                              type: string
+                              example: 5f83cc2b5560c50ea8438654
+                            $ref: '#/components/schemas/user/profile/work'
+                      skills:
+                        type: array
+                        items:
+                          properties:
+                            _id:
+                              type: string
+                              example: 5f83cc2b5560c50ea8438654
+                            $ref: '#/components/schemas/user/profile/skill'
+                      hobbies:
+                        type: array
+                        example: [singing, dancing, football]
+                      relationship:
+                        type: string
+                        example: single
+
+
+  /api/user/profile/{userID}:
+    get:
+      tags:
+        - User Profile
+      description: Retrieve the profile details of user of particular userID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userID
+      responses:
+        200:
+          description: Successful retrievel of the profile.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Profile retrievel successful.
+                  profile:
+                    type: object
+                    properties:
+                      _id: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f8d3
+                      userID: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f645
+                      userInfo:
+                        type: object
+                        properties:
+                          firstName:
+                            type: string
+                            example: Palden
+                          lastName:
+                            type: string
+                            example: Sherpa
+                          category:
+                            type: string
+                            example: Backend Engineering
+                          email:
+                            type: string
+                            example: asdfdsf@gmail.com
+                          mobileNumber:
+                            type: string
+                            example: 6598326598
+                          country:
+                            type: string
+                            example: Burundi
+                          gender:
+                            type: string
+                            example: Male
+                          birthDate:
+                            type: string
+                            example: 2020-01-01
+                      bio:
+                        type: string
+                        example: Hello I am a web developer.
+                      coverPic: 
+                        type: string
+                        example: abc.jpg
+                      profilePic:
+                        type: string
+                        example: xyz.jpg
+                      address:
+                        type: array
+                        items:
+                          properties:
+                            _id: 
+                              type: string
+                              example: 5f83cc2b5560c50ea8438f5b
+                            $ref: '#/components/schemas/user/profile/address'
+                      education:
+                        type: array
+                        items:
+                          properties:
+                            _id: 
+                              type: string
+                              example: 5f83cc2b5560c50ea8438654
+                            $ref: '#/components/schemas/user/profile/education'
+                      work:
+                        type: array
+                        items:
+                          properties:
+                            _id: 
+                              type: string
+                              example: 5f83cc2b5560c50ea8438654
+                            $ref: '#/components/schemas/user/profile/work'
+                      skills:
+                        type: array
+                        items:
+                          properties:
+                            _id:
+                              type: string
+                              example: 5f83cc2b5560c50ea8438654
+                            $ref: '#/components/schemas/user/profile/skill'
+                      hobbies:
+                        type: array
+                        example: [singing, dancing, football]
+                      relationship:
+                        type: string
+                        example: single
+
+
+  /api/user/profile/frameType:
+    put:
+      tags:
+        - User Profile
+      description: Update frame type for the profile picture.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                  frameType:
+                    type: string
+                    example: c0 for circular, r0 for rectangular and h0 for heart
+      responses:
+        200:
+          description: Response on successful update of frame type for profile picture.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Frame Type Update Successful
+                  frameType:
+                    type: string
+                    example: h0
+
+
+  /api/user/profile/profilePic:
+    put:
+      tags:
+        - User Profile
+      description: Create or update the profile picture.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                  files:
+                    type: string
+                    format: binary
+      responses:
+        200:
+          description: Response on successful creation or update of profile picture.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Profile Picture Upload Successful
+                  profilePic:
+                    type: string
+                    example: abc.jpeg
+
+
+    delete:
+      tags:
+        - User Profile
+      description: Delete the profile picture.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Response on successful deletion of profile picture.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Profile Picture Delete Successful
+
+
+  /api/user/profile/coverPic:
+    put:
+      tags:
+        - User Profile
+      description: Create or update the cover picture.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                  files:
+                    type: string
+                    format: binary
+      responses:
+        200:
+          description: Response on successful creation or update of cover picture.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Cover Picture Upload Successful
+                  coverPic:
+                    type: string
+                    example: xyz.png
+
+
+    delete:
+      tags:
+        - User Profile
+      description: Delete the cover picture.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Response on successful deletion of cover picture.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Cover Picture Delete Successful
+
+  
+  /api/user/profile/category:
+    put:
+      tags:
+        - User Profile
+      description: Update the user category.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                  category:
+                    type: string
+                    example: Art and literature
+      responses:
+        200:
+          description: Response on successful update of user category.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Category Update Successful                
+
+
+  /api/user/profile/bio:
+    put:
+      tags:
+        - User Profile
+      description: Create or update the user bio.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                  bio:
+                    type: string
+                    example: I am a web developer
+      responses:
+        200:
+          description: Response on successful creation or update of user bio.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Bio Update Successful
+  
+
+  /api/user/profile/personalDetails:
+    put:
+      tags:
+        - User Profile
+      description: Update the user personal details.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                  birthDate:
+                    type: string
+                    example: 2020-01-01
+                  gender:
+                    type: string
+                    example: Male
+                  country:
+                    type: string
+                    example: Nepal
+                  mobileNumber:
+                    type: string
+                    example: 9865986598
+                  category:
+                    type: string
+                    example: Music
+      responses:
+        200:
+          description: Response on successful update of user personal details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Personal Details Update Successful
+                  birthDate:
+                    type: string
+                    example: 2020-01-01
+                  gender:
+                    type: string
+                    example: Male
+                  country:
+                    type: string
+                    example: Nepal
+                  mobileNumber:
+                    type: string
+                    example: 9865986598
+                  category:
+                    type: string
+                    example: Music
+
+
+  /api/user/profile/address:
+    post:
+      tags:
+        - User Profile
+      description: Add user address.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: Home
+                state:
+                  type: string
+                  example: Bagmati
+                city: 
+                  type: string
+                  example: Bahrabise
+                localUnit:
+                  type: string
+                  example: Nayabazar, Ramche
+      responses:
+        200:
+          description: Response on successful addition of user address.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Address Addition Successful
+
+
+  /api/user/profile/address/{addressID}:
+    put:
+      tags:
+        - User Profile
+      description: Update user address.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: addressID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: Home
+                state:
+                  type: string
+                  example: Bagmati
+                city: 
+                  type: string
+                  example: Bahrabise
+                localUnit:
+                  type: string
+                  example: Nayabazar, Ramche
+      responses:
+        200:
+          description: Response on successful update of user address.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Address Update Successful
+
+    delete:
+      tags:
+        - User Profile
+      description: Delete user address.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: addressID
+      responses:
+        200:
+          description: Response on successful delete of user address.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Address Delete Successful
+
+
+  /api/user/profile/work:
+    post:
+      tags:
+        - User Profile
+      description: Add user work.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                company:
+                  type: string
+                  example: Web Bank Nepal
+                department:
+                  type: string
+                  example: IT
+                position:
+                  type: string
+                  example: Backend web developer
+                currentState:
+                  type: string
+                  example: true
+                from:
+                  type: string
+                  example: 2020-01-01
+                to:
+                  type: string
+                  example: null
+      responses:
+        200:
+          description: Response on successful addition of user work.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Work Addition Successful
+
+
+  /api/user/profile/work/{workID}:
+    put:
+      tags:
+        - User Profile
+      description: Update user work.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: workID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                company:
+                  type: string
+                  example: Web Bank Nepal
+                department:
+                  type: string
+                  example: IT
+                position:
+                  type: string
+                  example: Backend web developer
+                currentState:
+                  type: string
+                  example: true
+                from:
+                  type: string
+                  example: 2020-01-01
+                to:
+                  type: string
+                  example: null
+      responses:
+        200:
+          description: Response on successful update of user work.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Work Update Successful
+
+    delete:
+      tags:
+        - User Profile
+      description: Delete user work.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: workID
+      responses:
+        200:
+          description: Response on successful delete of user work.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Work Delete Successful
+
+
+  /api/user/profile/education:
+    post:
+      tags:
+        - User Profile
+      description: Add user education.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                level:
+                  type: string
+                  example: BE
+                institute:
+                  type: string
+                  example: Thapathali Campus
+                faculty:
+                  type: string
+                  example: Electronics Engineering
+                currentState:
+                  type: string
+                  example: false
+                from:
+                  type: string
+                  example: 2010-01-01
+                to:
+                  type: string
+                  example: 2015-01-01
+      responses:
+        200:
+          description: Response on successful addition of user education.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Education Addition Successful
+
+
+  /api/user/profile/education/{educationID}:
+    put:
+      tags:
+        - User Profile
+      description: Update user education.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: educationID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                level:
+                  type: string
+                  example: BE
+                institute:
+                  type: string
+                  example: Thapathali Campus
+                faculty:
+                  type: string
+                  example: Electronics Engineering
+                currentState:
+                  type: string
+                  example: false
+                from:
+                  type: string
+                  example: 2010-01-01
+                to:
+                  type: string
+                  example: 2015-01-01
+      responses:
+        200:
+          description: Response on successful update of user education.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Education Update Successful
+
+    delete:
+      tags:
+        - User Profile
+      description: Delete user education.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: educationID
+      responses:
+        200:
+          description: Response on successful delete of user education.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Education Delete Successful
+
+
+  /api/user/profile/skill:
+    post:
+      tags:
+        - User Profile
+      description: Add user skill.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                type: 
+                  type: string
+                  example: Tools and Technology
+                name: 
+                  type: string
+                  example: NodeJS
+                field:
+                  type: string
+                  example: Backend Web Development
+      responses:
+        200:
+          description: Response on successful addition of user skill.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Skill Addition Successful
+
+
+  /api/user/profile/skill/{skillID}:
+    put:
+      tags:
+        - User Profile
+      description: Update user skill.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: skillID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                type: 
+                  type: string
+                  example: Tools and Technology
+                name: 
+                  type: string
+                  example: NodeJS
+                field:
+                  type: string
+                  example: Backend Web Development
+      responses:
+        200:
+          description: Response on successful update of user skill.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Skill Update Successful
+
+    delete:
+      tags:
+        - User Profile
+      description: Delete user skill.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: skillID
+      responses:
+        200:
+          description: Response on successful delete of user skill.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Skill Delete Successful
+
+
+  /api/user/profile/hobby:
+    put:
+      tags:
+        - User Profile
+      description: Update user hobby.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                hobbies:
+                  type: array
+                  example: [singing, dancing, football]
+      responses:
+        200:
+          description: Response on successful update of user hobbies.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Hobby Update Successful
+
+
+  /api/user/profile/relationship:
+    put:
+      tags:
+        - User Profile
+      description: Update user relationship.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                relationship:
+                  type: string
+                  example: Married
+      responses:
+        200:
+          description: Response on successful update of user hobbies.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Relationship Update Successful
+
+
+
+
+
+
+
+
+
+
+
+
+# User Profile Ends and User Posts Starts
+
+
+
+  /api/user/post/video/{fileName}:
+    get:
+      tags:
+        - User Posts
+      description: Play video
+      parameters:
+        - in: path
+          name: fileName
+      responses:
+        200:
+          description: Response on successful video stream
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Video Stream Successful
+
+
+  /api/user/post:
+    post:
+      tags:
+        - User Posts
+      description: Create a user post or expression
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                text:
+                  type: string
+                  example: Nepal is a agricultural country but we import agro products from India.
+                reachTo:
+                  type: object
+                  properties:
+                    public: 
+                      type: boolean
+                      example: false
+                    categories:
+                      type: array
+                      example: ["Economics", "Agriculture"]
+                    location:
+                      type: object
+                      properties:
+                        country:
+                          type: string
+                          example: Nepal
+                        state: 
+                          type: string
+                          example: Bagmati
+      responses:
+        200:
+          description: Response on successful creation of user post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Post Creation Successful
+                  post:
+                    type: object
+                    properties:
+                      _id: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f8d3
+                      userID: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f645
+                      text:
+                        type: string
+                        example: Nepal is a agricultural country but we import agro products from India.
+                      reachTo:
+                        type: object
+                        properties:
+                          public: 
+                            type: boolean
+                            example: false
+                          categories:
+                            type: array
+                            example: ["Economics", "Agriculture"]
+                          location:
+                            type: object
+                            properties:
+                              country:
+                                type: string
+                                example: Nepal
+                              state: 
+                                type: string
+                                example: Bagmati
+                      images:
+                        type: array
+                        example: ["abc.jpg", "xyz.jpg"]
+                      videos:
+                        type: array
+                        example: ["demo.mp4"]
+                      takeTotal:
+                        type: integer
+                        example: 100
+                      commentTotal:
+                        type: integer
+                        example: 50
+                      createdAt:
+                        type: string
+                        example: 2020-01-01
+
+
+  /api/user/post/{postID}:
+    get:
+      tags:
+        - User Posts
+      description: Get a user post of particular postID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+      responses:
+        200:
+          description: Response on successful Retrieval of user post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Post Retrieval Successful
+
+    put:
+      tags:
+        - User Posts
+      description: Update a user post or expression
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                text:
+                  type: string
+                  example: This is new updated text
+                imagesToBeDeleted:
+                  type: array
+                  example: ['abc.png', 'xyz.jpg']
+                videosToBeDeleted:
+                  type: array
+                  example: ['demo.mp4']
+      responses:
+        200:
+          description: Response on successful update of user post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Post Update Successful
+                  post:
+                    type: object
+                    properties:
+                      _id: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f8d3
+                      userID: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f645
+                      text:
+                        type: string
+                        example: This is a new updated text.
+                      reachTo:
+                        type: object
+                        properties:
+                          public: 
+                            type: boolean
+                            example: false
+                          categories:
+                            type: array
+                            example: ["Economics", "Agriculture"]
+                          location:
+                            type: object
+                            properties:
+                              country:
+                                type: string
+                                example: Nepal
+                              state: 
+                                type: string
+                                example: Bagmati
+                      images:
+                        type: array
+                        example: ["abc.jpg", "xyz.jpg"]
+                      videos:
+                        type: array
+                        example: ["demo.mp4"]
+                      takeTotal:
+                        type: integer
+                        example: 100
+                      commentTotal:
+                        type: integer
+                        example: 50
+                      createdAt:
+                        type: string
+                        example: 2020-01-01
+
+    delete:
+      tags:
+        - User Posts
+      description: Delete a post in newsFeed
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+      responses:
+        200:
+          description: Response on successful delete of a newsfeed post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Delete Post Successful
+
+
+  /api/user/post/take/{postID}:
+    put:
+      tags:
+        - User Posts
+      description: Take a post in newsFeed
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+      responses:
+        200:
+          description: Response on successful take of post in newsFeed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Take on a Post Successful
+                  takeTotal:
+                    type: integer
+                    example: 5
+                  isTaken:
+                    type: boolean
+                    example: true
+
+
+  /api/user/post/untake/{postID}:
+    put:
+      tags:
+        - User Posts
+      description: Untake a post in newsFeed
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+      responses:
+        200:
+          description: Response on successful untake of newsfeed post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Untake on a Post Successful
+                  takeTotal:
+                    type: integer
+                    example: 4
+                  isTaken:
+                    type: boolean
+                    example: false
+
+
+  /api/user/post/comment/{postID}:
+    post:
+      tags:
+        - User Posts
+      description: Post a comment in a post in newsFeed
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                text:
+                  type: string
+                  example: I agree with your expression
+      responses:
+        200:
+          description: Response on successful post of comment on a newsfeed post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Comment on a Post Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  comment:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                        example: I commented on your post
+                      image:
+                        type: string
+                        example: abc.png
+
+
+    get:
+      tags:
+        - User Posts
+      description: Load comments of a post.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful loading of comments of post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Comment loading successful.
+
+
+  /api/user/post/comment/{postID}/{commentID}:
+    put:
+      tags:
+        - User Posts
+      description: Edit a comment in a post in newsFeed
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+        - in: path
+          name: commentID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: This is updated comment.
+                image:
+                  type: string
+                  example: abc.png     
+      responses:
+        200:
+          description: Response on successful edit of a comment on a newsfeed post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Edit comment of a Post Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  text:
+                    type: string
+                    example: This is updated comment
+
+    delete:
+      tags:
+        - User Posts
+      description: Delete a comment in a post in newsFeed
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+        - in: path
+          name: commentID
+      responses:
+        200:
+          description: Response on successful delete of a comment on a newsfeed post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Delete comment of a Post Successful
+                  commentTotal:
+                    type: integer
+                    example: 89
+                  
+
+  /api/user/post/reply/{postID}/{commentID}:
+    post:
+      tags:
+        - User Posts
+      description: Post a reply on a comment in a post in newsFeed
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+        - in: path
+          name: commentID
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                text:
+                  type: string
+                  example: I am replying to your comment hhaha...
+      responses:
+        200:
+          description: Response on successful post of reply on a comment on a newsfeed post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Reply on a comment of a Post Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  reply:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                        example: I replied on a comment
+                      image:
+                        type: string
+                        example: abc.png
+
+
+    get:
+      tags:
+        - User Posts
+      description: Load repies of a comment of a post.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+        - in: path
+          name: commentID
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful loading of replies of comment.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Replies loading successful.
+
+
+  /api/user/post/reply/{postID}/{commentID}/{replyID}:
+    put:
+      tags:
+        - User Posts
+      description: Edit a reply in a post in newsFeed
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+        - in: path
+          name: commentID
+        - in: path
+          name: replyID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: This is updated reply.
+                image:
+                  type: string
+                  example: abc.png
+      responses:
+        200:
+          description: Response on successful edit of a reply on a newsfeed post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Edit reply of a Post Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  text:
+                    type: string
+                    example: This is updated reply
+
+    delete:
+      tags:
+        - User Posts
+      description: Delete a reply on a comment in a post in newsFeed
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: postID
+        - in: path
+          name: commentID
+        - in: path
+          name: replyID
+      responses:
+        200:
+          description: Response on successful delete of reply on a comment on a newsfeed post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Reply delete on a comment of a Post Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+
+
+  /api/user/timeLine/posts:
+    get:
+      tags:
+        - User Posts
+      description: Get the posts of user in profile page in order of most recents.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Successful retrievel of user posts in profile page.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Posts Retrieval Successful.
+                  total:
+                    type: integer
+                    example: 9
+                  nextSkips:
+                    type: integer
+                    example: 4
+                  posts:
+                    type: object
+                    properties:
+                      _id: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f8d3
+                      userID: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f645
+                      text:
+                        type: string
+                        example: Nepal is a agricultural country but we import agro products from India.
+                      reachTo:
+                        type: object
+                        properties:
+                          public: 
+                            type: boolean
+                            example: false
+                          categories:
+                            type: array
+                            example: ["Economics", "Agriculture"]
+                          location:
+                            type: object
+                            properties:
+                              country:
+                                type: string
+                                example: Nepal
+                              state: 
+                                type: string
+                                example: Bagmati
+                      images:
+                        type: array
+                        example: ["abc.jpg", "xyz.jpg"]
+                      videos:
+                        type: array
+                        example: ["demo.mp4"]
+                      takeTotal:
+                        type: integer
+                        example: 100
+                      commentTotal:
+                        type: integer
+                        example: 50
+                      createdAt:
+                        type: string
+                        example: 2020-01-01
+
+
+  /api/user/timeLine/posts/{userID}:
+    get:
+      tags:
+        - User Posts
+      description: Get the timeLine posts of specific user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userID
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Successful retrievel of timeLine posts of specific user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Posts Retrieval Successful.
+                  total:
+                    type: integer
+                    example: 9
+                  nextSkips:
+                    type: integer
+                    example: 4
+                  posts:
+                    type: object
+                    properties:
+                      _id: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f8d3
+                      userID: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f645
+                      text:
+                        type: string
+                        example: Nepal is a agricultural country but we import agro products from India.
+                      reachTo:
+                        type: object
+                        properties:
+                          public: 
+                            type: boolean
+                            example: false
+                          categories:
+                            type: array
+                            example: ["Economics", "Agriculture"]
+                          location:
+                            type: object
+                            properties:
+                              country:
+                                type: string
+                                example: Nepal
+                              state: 
+                                type: string
+                                example: Bagmati
+                      images:
+                        type: array
+                        example: ["abc.jpg", "xyz.jpg"]
+                      videos:
+                        type: array
+                        example: ["demo.mp4"]
+                      takeTotal:
+                        type: integer
+                        example: 100
+                      commentTotal:
+                        type: integer
+                        example: 50
+                      createdAt:
+                        type: string
+                        example: 2020-01-01
+
+
+  /api/user/timeLine/photos/{userID}:
+    get:
+      tags:
+        - User Posts
+      description: Get the timeLine photos of specific user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userID
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Successful retrievel of timeLine photos of specific user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Photos Retrieval Successful.
+
+
+  /api/user/timeLine/photos:
+    get:
+      tags:
+        - User Posts
+      description: Get the timeLine photos of logged user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Successful retrievel of timeLine photos of logged user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Photos Retrieval Successful.
+
+
+  /api/user/timeLine/videos/{userID}:
+    get:
+      tags:
+        - User Posts
+      description: Get the timeLine videos of specific user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userID
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Successful retrievel of timeLine videos of specific user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User videos Retrieval Successful.
+
+
+  /api/user/timeLine/videos:
+    get:
+      tags:
+        - User Posts
+      description: Get the timeLine videos of logged user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Successful retrievel of timeLine videos of logged user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User videos Retrieval Successful.
+
+
+  /api/user/newsFeed/posts:
+    get:
+      tags:
+        - User Posts
+      description: Get the posts of user in newsFeed page in order of most recents.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Successful retrievel of user posts in newsFeed page.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Posts Retrieval Successful.
+                  total:
+                    type: integer
+                    example: 9
+                  nextSkips:
+                    type: integer
+                    example: 4
+                  posts:
+                    type: object
+                    properties:
+                      _id: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f8d3
+                      userID: 
+                        type: string
+                        example: 5f83c6ac2352820acc05f645
+                      text:
+                        type: string
+                        example: Nepal is a agricultural country but we import agro products from India.
+                      reachTo:
+                        type: object
+                        properties:
+                          public: 
+                            type: boolean
+                            example: true
+                          categories:
+                            type: array
+                            example: ["Economics", "Agriculture"]
+                          location:
+                            type: object
+                            properties:
+                              country:
+                                type: string
+                                example: Nepal
+                              state: 
+                                type: string
+                                example: Bagmati
+                              city:
+                                type: string
+                                example: kathmandu
+                      images:
+                        type: array
+                        example: ["abc.jpg", "xyz.jpg"]
+                      videos:
+                        type: array
+                        example: ["demo.mp4"]
+                      takeTotal:
+                        type: integer
+                        example: 100
+                      commentTotal:
+                        type: integer
+                        example: 50
+                      createdAt:
+                        type: string
+                        example: 2020-01-01
+
+
+  /api/user/friends:
+    get:
+      tags:
+        - User Posts
+      description: Load all the friendlist.
+      security:
+        - bearerAuth: []
+      # parameters:
+      #   - in: path
+      #     name: postID
+      #   - in: path
+      #     name: commentID
+      responses:
+        200:
+          description: Response on successful retrieval of friendlist of user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: friendlist retrieval Successful
+
+
+  /api/user/search-user:
+    get:
+      tags:
+        - User Posts
+      description: Search a user in a complete user collection base.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+        - in: query
+          name: searchKey
+      responses:
+        200:
+          description: Response on successful search of a user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Search Result Retrieval Successful
+
+
+
+  /api/user/search-friend:
+    get:
+      tags:
+        - User Posts
+      description: Search a friend in a complete friend list of user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+        - in: query
+          name: searchKey
+      responses:
+        200:
+          description: Response on successful search of a friend.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Friend Search Result Retrieval Successful
+
+
+  /api/user/notifications:
+    get:
+      tags:
+        - User Posts
+      description: Load the recent user notifications.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful retrieval of recent user notifications.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User notifications retrieval Successful
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# campaign API 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /api/campaign/set-thumbnail/{campaignID}:
+    put:
+      tags:
+        - Campaign
+      description: Set thumbnail image for a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                thumbnailImg:
+                  type: string
+                  example: abc.png
+      responses:
+        200:
+          description: Response on successful setup of thumbnail image of campaign
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: setup of thumbnail image of campaign successful
+
+
+  /api/campaign:
+    post:
+      tags:
+        - Campaign
+      description: Create or update the profile picture.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                  files:
+                    type: array
+                    items:
+                      type: string
+                      format: binary
+                  # $ref: '#/components/schemas/campaign'
+                  title:
+                    type: string
+                    example: Lets Kill Covid-19
+                  duration:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                        example: 2020-01-01
+                      endDate:
+                        type: string
+                        example: 2020-01-03
+                  objectives:
+                    type: string
+                    example: to end covid-19
+                  details: 
+                    type: string
+                    example: This campaign aims to end the covid-19 and blah blah...
+                  targetGroup: 
+                    type: string
+                    example: Government
+                  ageGroup: 
+                    type: string
+                    example: 25-60 years
+                  campaignType: 
+                    type: string
+                    example: Health Campaign
+                  location:
+                    type: string
+                    example: ABC street, route no. xyz ...
+                  country:
+                    type: string
+                    example: Nepal
+                  state: 
+                    type: string
+                    example: Bagmati
+                  district:
+                    type: string
+                    example: Kathmandu
+                  localUnit:
+                    type: string
+                    example: Ratnapark
+                  category:
+                    type: string
+                    example: Pandemic
+                  message:
+                    type: string
+                    example: Maintain physical distance.
+                  platform:
+                    type: string
+                    example: Health and Social platform
+      responses:
+        201:
+          description: Response on successful creation of campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campaign Create Successful
+
+
+  /api/campaign/expressed-campaigns:
+    get:
+      tags:
+        - Campaign
+      description: Display campaigns that are expressed.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful retrieval of campaigns.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campagains Retrieval Successful
+                  total:
+                    type: integer
+                    example: 4
+                  nextSkips: 
+                    type: integer
+                    example: 2
+
+
+  /api/campaign/all-campaigns:
+    get:
+      tags:
+        - Campaign
+      description: Display all campaigns.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful retrieval of campaigns.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campagains Retrieval Successful
+                  total:
+                    type: integer
+                    example: 4
+                  nextSkips: 
+                    type: integer
+                    example: 2
+
+
+  /api/campaign/user-campaigns:
+    get:
+      tags:
+        - Campaign
+      description: Display all campaigns of logged user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful retrieval of campaigns.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campagains Retrieval Successful
+                  total:
+                    type: integer
+                    example: 4
+                  nextSkips: 
+                    type: integer
+                    example: 2
+                  
+
+  /api/campaign/details/{campaignID}:
+    get:
+      tags:
+        - Campaign
+      description: Display single campaign details of particular ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      responses:
+        200:
+          description: Response on successful retrieval of campaign details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campaign Retrieval Successful
+                  
+
+  /api/campaign/{campaignID}:
+    delete:
+      tags:
+        - Campaign
+      description: Delete a campaign of particular ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      
+      responses:
+        200:
+          description: Response on successful deletion of campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campaign Delete Successful
+
+  
+  /api/campaign/rating/{campaignID}:
+    post:
+      tags:
+        - Campaign
+      description: Post a user rating to a campaign of particular ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                  ratingVal:
+                    type: integer
+                    example: 3
+      responses:
+        200:
+          description: Response on successful rating of campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Campaign rating Successful
+                  avgRating:
+                    type: integer
+                    example: 4.5
+
+
+  /api/campaign/express/{campaignID}:
+    post:
+      tags:
+        - Campaign
+      description: Express a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      responses:
+        200:
+          description: Response on successful express of campaign
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Express on a Campaign Successful
+
+
+  /api/campaign/take/{campaignID}:
+    put:
+      tags:
+        - Campaign
+      description: Take a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      responses:
+        200:
+          description: Response on successful take of campaign
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Take on a Campaign Successful
+                  takeTotal:
+                    type: integer
+                    example: 5
+                  isTaken:
+                    type: boolean
+                    example: true
+
+
+  /api/campaign/untake/{campaignID}:
+    put:
+      tags:
+        - Campaign
+      description: Untake a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      responses:
+        200:
+          description: Response on successful untake of campaign
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Untake on a Campaign Successful
+                  takeTotal:
+                    type: integer
+                    example: 4
+                  isTaken:
+                    type: boolean
+                    example: false
+
+
+  /api/campaign/comment/{campaignID}:
+    post:
+      tags:
+        - Campaign
+      description: Post a comment in a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                text:
+                  type: string
+                  example: Your campaign is very userful for students.
+      responses:
+        200:
+          description: Response on successful post of comment on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Comment on a Post Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  comment:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                        example: I commented on your campaign
+                      image:
+                        type: string
+                        example: abc.png
+
+
+    get:
+      tags:
+        - Campaign
+      description: Load comments of a campaign.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful loading of comments of campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Comment loading successful.
+
+
+  /api/campaign/comment/{campaignID}/{commentID}:
+    put:
+      tags:
+        - Campaign
+      description: Edit a comment of a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: This is updated comment.
+                image:
+                  type: string
+                  example: abc.png     
+      responses:
+        200:
+          description: Response on successful edit of a comment on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Edit comment of a Campaign Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  text:
+                    type: string
+                    example: This is updated comment
+
+    delete:
+      tags:
+        - Campaign
+      description: Delete a comment in a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+      responses:
+        200:
+          description: Response on successful delete of a comment on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Delete comment of a Campaign Successful
+                  commentTotal:
+                    type: integer
+                    example: 89
+
+
+  /api/campaign/reply/{campaignID}/{commentID}:
+    post:
+      tags:
+        - Campaign
+      description: Post a reply on a comment in a campaign
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                text:
+                  type: string
+                  example: I am replying to your comment hhaha...
+      responses:
+        200:
+          description: Response on successful post of reply on a comment on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Reply on a comment of a Campaign Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  reply:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                        example: I replied on a comment
+                      image:
+                        type: string
+                        example: abc.png
+
+
+    get:
+      tags:
+        - Campaign
+      description: Load repies of a comment of a campaign.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+        - in: query
+          name: skips
+        - in: query
+          name: limit
+      responses:
+        200:
+          description: Response on successful loading of replies of comment.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Replies loading successful.
+
+
+  /api/campaign/reply/{campaignID}/{commentID}/{replyID}:
+    put:
+      tags:
+        - Campaign
+      description: Edit a reply in a campaign.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+        - in: path
+          name: replyID
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: This is updated reply.
+                image:
+                  type: string
+                  example: abc.png
+      responses:
+        200:
+          description: Response on successful edit of a reply on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Edit reply of a Campaign Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+                  text:
+                    type: string
+                    example: This is updated reply
+
+    delete:
+      tags:
+        - Campaign
+      description: Delete a reply on a comment in a campaign.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: campaignID
+        - in: path
+          name: commentID
+        - in: path
+          name: replyID
+      responses:
+        200:
+          description: Response on successful delete of reply on a comment on a campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Reply delete on a comment of a Campaign Successful
+                  commentTotal:
+                    type: integer
+                    example: 100
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# web socket API
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /addFriend:
+    post:
+      tags:
+        - Notification APIs
+      description: emit when you send a friend request to another user.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                receiverID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+
+  /addedFriend:
+    get:
+      tags:
+        - Notification APIs
+      description: emits when some user sends you a friend request
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  sender:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 5f8564021cc2e80696a2bed7
+                      fullName:
+                        type: string
+                        example: Shiva Bishnu Vagawan
+                      profilePic:
+                        type: string
+                        example: abc.png
+                  type:
+                    type: string
+                    example: addedFriend
+                  message:
+                    type: string
+                    example: Shiva Bishnu Vagawan sent you a friend request.
+                  date:
+                    type: string
+                    example: 2020-02-24
+                  newNotifications:
+                    type: integer
+                    example: 21
+
+
+  /acceptFriend:
+    post:
+      tags:
+        - Notification APIs
+      description: emit when you accept a friend request of some user.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                senderID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+
+  /rejectFriend:
+    post:
+      tags:
+        - Notification APIs
+      description: emit when you reject a friend request of some user.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                senderID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+
+  /acceptedFriend:
+    get:
+      tags:
+        - Notification APIs
+      description: emits when some user accepts your friend request
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  sender:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 5f8564021cc2e80696a2bed7
+                      fullName:
+                        type: string
+                        example: Shiva Bishnu Vagawan
+                      profilePic:
+                        type: string
+                        example: abc.png
+                  type:
+                    type: string
+                    example: acceptedFriend
+                  message:
+                    type: string
+                    example: Shiva Bishnu Vagawan accepted your friend request.
+                  date:
+                    type: string
+                    example: 2020-02-24
+                  newNotifications:
+                    type: integer
+                    example: 21
+
+
+  /connectToPost:
+    post:
+      tags:
+        - Notification APIs
+      description: emit when you connect a post to some user
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                receivers:
+                  type: array
+                  example: [5f8564021cc2e80696a2bed7, adfasdfasdf23452345gd]
+                postID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+
+  /connectedToPost:
+    get:
+      tags:
+        - Notification APIs
+      description: fires when some user connects you to a post
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  sender:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 5f8564021cc2e80696a2bed7
+                      fullName:
+                        type: string
+                        example: Shiva Bishnu Vagawan
+                      profilePic:
+                        type: string
+                        example: abc.png
+                  type:
+                    type: string
+                    example: connectedToPost
+                  postID:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  message:
+                    type: string
+                    example: Shiva Vagawan connected you to a post.
+                  date:
+                    type: string
+                    example: 2020-02-24
+                  newNotifications:
+                    type: integer
+                    example: 21
+
+
+  /connectToCampaign:
+    post:
+      tags:
+        - Notification APIs
+      description: emit when you connect a campaign to some user
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                receivers:
+                  type: array
+                  example: [5f8564021cc2e80696a2bed7, adfasdfasdf23452345gd]
+                campaignID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+
+  /connectedToCampaign:
+    get:
+      tags:
+        - Notification APIs
+      description: fires when some user connects you to a campaign
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  sender:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 5f8564021cc2e80696a2bed7
+                      fullName:
+                        type: string
+                        example: Shiva Bishnu Vagawan
+                      profilePic:
+                        type: string
+                        example: abc.png
+                  type:
+                    type: string
+                    example: connectedTocCampaign
+                  campaignID:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  message:
+                    type: string
+                    example: Shiva Vagawan connected you to a campaign.
+                  date:
+                    type: string
+                    example: 2020-02-24
+                  newNotifications:
+                    type: integer
+                    example: 21
+
+
+  /seenNotification:
+    post:
+      tags:
+        - Notification APIs
+      description: emit when you click the notification in the notification bar.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                notificationID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+
+
+
+
+
+
+
+# //messaging and chats websockets API
+
+
+  /joinToRooms:
+    post:
+      tags:
+        - Messaging APIs
+      description: Fire this event as soon the websocket connection in established in the client.
+      
+  /LoadGroupConversations:
+    post:
+      tags:
+        - Messaging APIs
+      description: Fire this event as soon as the websocket connection is established in the client side to get all the group conversations.
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 5fec5d31b7762e21a89c42b7
+                    type:
+                      type: string
+                      example: gm
+                    admin:
+                      type: string
+                      example: 5f8564021cc2e80696a2bed7
+                    members:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                            example: 5f8564021cc2e80696a2bed7
+                          fullName:
+                            type: string
+                            example: Palden Sherpa
+                          profilePic:
+                            type: string
+                            example: maxresdefault-1606916360448.jpg
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                          fullName:
+                            type: string
+                          profilePic:
+                            type: string
+                        example:
+                          - _id: 5f8564021cc2e80696a2bed7
+                            fullName: Palden Sherpa
+                            profilePic: maxresdefault-1606916360448.jpg
+                          - _id: 5f7f02ded1e4ab1004a4e617
+                            fullName: ShivaBishnu Vagwan
+                            profilePic: shiva bhagwan-1606147752298.jpg
+
+  /getDmMessages:
+    post:
+      tags:
+        - Messaging APIs
+      description: fire when you want to open message box of your messages with another user.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                receiverID:
+                  type: string
+                  example: adfasdfasdf23452345gd
+                skips:
+                  type: integer
+                  example: 0
+                limit:
+                  type: integer
+                  example: 5
+                conversationID:
+                  type: string
+                  example: asdfasdf3ertertacerdr
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  conversationID:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  messages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: 5f8564021cc2e80696a2bed7
+                        senderID:
+                          type: string
+                          example: 5f8564021cc2e80696a2bed7
+                        text:
+                          type: string
+                          example: Hi brother how are you?
+                        files:
+                          type: array
+                          example: [abc.png, xyz.pdf]
+                        date:
+                          type: string
+                          example: 2020-12-12
+                  nextSkips: 
+                    type: integer
+                    example: 5
+                  total:
+                    type: integer
+                    example: 10
+
+
+  /sendDmText:
+    post:
+      tags:
+        - Messaging APIs
+      description: emit when you want to send direct message to another user
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                receiverID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+                conversationID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+                text:
+                  type: string
+                  example: Hello Sir!! How are you?
+
+
+  /sendDmFiles:
+    post:
+      tags:
+        - Messaging APIs
+      description: emit when you want to send files to another user
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                receiverID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+                conversationID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+                files:
+                  type: array
+                  example: ['abc.png', 'xyz.jpg']
+
+
+  /directMessage:
+    get:
+      tags:
+        - Messaging APIs
+      description: fires when some user send a direct message to you.
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  sender:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 5f8564021cc2e80696a2bed7
+                      senderID:
+                        type: string
+                        example: 5f8564021cc2e80696a2bed7
+                      text:
+                        type: string
+                        example: Hi brother how are you?
+                      files:
+                        type: array
+                        example: [abc.png, xyz.pdf]
+                      date:
+                        type: string
+                        example: 2020-12-12
+
+
+
+
+  /createGroupConversation:
+    post:
+      tags:
+        - Messaging APIs
+      description: Fire this event when you want to create a group conversation.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                groupName:
+                  type: string
+                  example: ap-technical-team
+                members:
+                  type: array
+                  example: ["5f7f02ded1e4ab1004a4e617", "5feb1e0def50f3182b8cac36"]
+
+
+  /getGmMessages:
+    post:
+      tags:
+        - Messaging APIs
+      description: fire when you want to open message box of particular group conversation.
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                skips:
+                  type: integer
+                  example: 0
+                limit:
+                  type: integer
+                  example: 5
+                conversationID:
+                  type: string
+                  example: 5fec5d31b7762e21a89c42b7
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  conversationID:
+                    type: string
+                    example: 5fec5d31b7762e21a89c42b7
+                  messages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: 5f8564021cc2e80696a2bed7
+                        sender:
+                          type: object
+                          properties:
+                            _id: 5f8564021cc2e80696a2bed7
+                            fullName: Palden Sherpa
+                            profilePic: palden.jpg
+                        text:
+                          type: string
+                          example: Hi brother how are you?
+                        files:
+                          type: array
+                          example: [abc.png, xyz.pdf]
+                        date:
+                          type: string
+                          example: 2020-12-12
+                  nextSkips: 
+                    type: integer
+                    example: 5
+                  total:
+                    type: integer
+                    example: 10
+
+
+  /sendGmText:
+    post:
+      tags:
+        - Messaging APIs
+      description: emit when you want to send message to a particular group conversation
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                conversationID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+                text:
+                  type: string
+                  example: Hello Sir!! How are you?
+
+
+  /sendGmFiles:
+    post:
+      tags:
+        - Messaging APIs
+      description: emit when you want to send files in a group conversation
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                conversationID:
+                  type: string
+                  example: 5f8564021cc2e80696a2bed7
+                files:
+                  type: array
+                  example: ['abc.png', 'xyz.jpg']
+
+
+  /groupMessage:
+    get:
+      tags:
+        - Messaging APIs
+      description: fires when some user send a message or files in a group conversation you are in.
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  conversationID:
+                    type: string
+                    example: 5f8564021cc2e80696a2bed7
+                  room:
+                    type: string
+                    example: ap-technical-team
+                  sender:
+                    type: object
+                    properties:
+                      _id: 
+                        type: string
+                        example: 5f8564021cc2e80696a2bed7
+                      fullName: 
+                        type: string
+                        example: Palden Sherpa
+                      profilePic:
+                        type: string
+                        example: palden.jpg
+                  text:
+                    type: string
+                    example: Hi brother how are you?
+                  files:
+                    type: array
+                    example: [abc.png, xyz.pdf]
+                  date:
+                    type: string
+                    example: 2020-12-12
+
+
+
+
+components:
+  securitySchemes:
+    bearerAuth:           
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  
